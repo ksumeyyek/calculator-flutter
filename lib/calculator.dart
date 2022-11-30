@@ -8,12 +8,13 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
-  int num1 = 0;
-  int num2 = 0;
-  String sonuc = '0';
-  String isaret = "";
-  String toplam = '0';
-  String eski = "";
+  double num1 = 0;
+  double num2 = 0;
+  String result = '0';
+  String operator = "";
+  String cal = '0';
+
+  String old = "";
 
   Widget buttondizayn(String butondegeri) {
     return Container(
@@ -28,37 +29,64 @@ class _CalculatorState extends State<Calculator> {
         onPressed: () {
           setState(() {
             if (butondegeri == 'C') {
-              toplam = '0';
+              cal = '0';
               num1 = 0;
               num2 = 0;
-              isaret = "";
+              operator = "";
             } else if (butondegeri == '+') {
-              num1 = int.parse(sonuc);
-              isaret = butondegeri;
-              toplam = '0';
-            } else if (butondegeri == "=" && isaret == '+') {
-              num2 = int.parse(sonuc);
+              num1 = double.parse(result);
+              operator = butondegeri;
+              cal = '0';
+            } else if (butondegeri == '-') {
+              num1 = double.parse(result);
+              operator = butondegeri;
+              cal = '0';
+            } else if (butondegeri == '/') {
+              num1 = double.parse(result);
+              operator = butondegeri;
+              cal = '0';
+            } else if (butondegeri == '*') {
+              num1 = double.parse(result);
+              operator = butondegeri;
+              cal = '0';
+            } else if (butondegeri == "=" && operator == '+') {
+              num2 = double.parse(result);
 
-              toplam = (num1 + num2).toString();
-              eski = toplam;
+              cal = (num1 + num2).toString();
+              old = cal;
+            } else if (butondegeri == "=" && operator == '-') {
+              num2 = double.parse(result);
+
+              cal = (num1 - num2).toString();
+              old = cal;
+            } else if (butondegeri == "=" && operator == '/') {
+              num2 = double.parse(result);
+
+              cal = (num1 / num2).toString();
+              old = cal;
+            } else if (butondegeri == "=" && operator == '*') {
+              num2 = double.parse(result);
+
+              cal = (num1 * num2).toString();
+              old = cal;
             } else if (butondegeri == '<') {
-              toplam = sonuc.substring(0, sonuc.length - 1);
+              cal = result.substring(0, result.length - 1);
             } else {
-              toplam = toplam + butondegeri;
+              cal = cal + butondegeri;
             }
 
-            sonuc = int.parse(toplam).toStringAsFixed(0);
+            result = double.parse(cal).toStringAsFixed(0);
 
             if (butondegeri != 'C') {
               if (butondegeri == '=') {
-                eski = eski;
+                old = old;
               } else if (butondegeri == '<') {
-                eski = eski.substring(0, eski.length - 1);
+                old = old.substring(0, old.length - 1);
               } else {
-                eski = eski + butondegeri;
+                old = old + butondegeri;
               }
             } else {
-              eski = '';
+              old = '';
             }
           });
         },
@@ -110,7 +138,7 @@ class _CalculatorState extends State<Calculator> {
                     child: Container(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        eski,
+                        old,
                         style: TextStyle(
                           fontSize: 30,
                           color: Colors.black,
@@ -125,7 +153,7 @@ class _CalculatorState extends State<Calculator> {
                   child: Container(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      sonuc,
+                      result,
                       style: TextStyle(
                         fontSize: 85,
                         color: Colors.black,
@@ -135,7 +163,13 @@ class _CalculatorState extends State<Calculator> {
                 ),
               ],
             ),
-            Divider(thickness: 2, color: Colors.indigoAccent,height: 40,indent: 30,endIndent: 30,),
+            Divider(
+              thickness: 2,
+              color: Colors.indigoAccent,
+              height: 40,
+              indent: 30,
+              endIndent: 30,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Row(
@@ -166,10 +200,10 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   Column(
                     children: [
-                      Container(
-                        child: buttondizayn("+"),
-                        height: 300,
-                      ),
+                      buttondizayn("+"),
+                      buttondizayn("-"),
+                      buttondizayn("/"),
+                      buttondizayn("*"),
                     ],
                   ),
                 ],
