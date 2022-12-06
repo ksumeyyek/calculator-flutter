@@ -75,7 +75,7 @@ class _CalculatorState extends State<Calculator> {
               cal = cal + butondegeri;
             }
 
-            result = double.parse(cal).toStringAsFixed(0);
+            result = double.parse(cal).toStringAsFixed(2);
 
             if (butondegeri != 'C') {
               if (butondegeri == '=') {
@@ -217,6 +217,7 @@ class _CalculatorState extends State<Calculator> {
                     child: buttondizayn("="),
                     width: 275,
                   ),
+                  buttondizayn("."),
                 ],
               ),
             )
